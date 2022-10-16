@@ -1,8 +1,8 @@
-name: html_editor_enhanced
+name: html_editor_enhanced_2
 description: HTML rich text editor for Android, iOS, and Web, using the Summernote library.
   Enhanced with highly customizable widget-based controls, bug fixes, callbacks, dark mode, and more.
 version: 2.5.0
-homepage: https://github.com/tneotia/html-editor-enhanced
+homepage: https://github.com/sherlockvn/html-editor-enhanced
 
 environment:
   sdk: '>=2.12.0 <3.0.0'
@@ -21,7 +21,7 @@ dependencies:
   # plugin to show a color picker for foreground/highlight color
   flex_color_picker: ^2.5.0
   # plugin to get files from filesystem
-  file_picker: ^4.6.0
+  file_picker: ^5.0.1
   # plugin to show a scrollable number picker for inserting tables
   numberpicker: ^2.1.1
   # plugin to allow dropdowns and dialogs to be interactable when displaying over the editor
@@ -44,15 +44,15 @@ dev_dependencies:
 flutter:
 
   assets:
-    - packages/html_editor_enhanced/summernote.html
-    - packages/html_editor_enhanced/summernote-no-plugins.html
-    - packages/html_editor_enhanced/summernote-lite.min.css
-    - packages/html_editor_enhanced/summernote-lite-dark.css
-    - packages/html_editor_enhanced/summernote-lite.min.js
-    - packages/html_editor_enhanced/jquery.min.js
-    - packages/html_editor_enhanced/assets/font/summernote.eot
-    - packages/html_editor_enhanced/assets/font/summernote.ttf
-    - packages/html_editor_enhanced/assets/plugins/summernote-at-mention/summernote-at-mention.js
+    - packages/html_editor_enhanced_2/summernote.html
+    - packages/html_editor_enhanced_2/summernote-no-plugins.html
+    - packages/html_editor_enhanced_2/summernote-lite.min.css
+    - packages/html_editor_enhanced_2/summernote-lite-dark.css
+    - packages/html_editor_enhanced_2/summernote-lite.min.js
+    - packages/html_editor_enhanced_2/jquery.min.js
+    - packages/html_editor_enhanced_2/assets/font/summernote.eot
+    - packages/html_editor_enhanced_2/assets/font/summernote.ttf
+    - packages/html_editor_enhanced_2/assets/plugins/summernote-at-mention/summernote-at-mention.js
   # This section identifies this Flutter project as a plugin project.
   # The 'pluginClass' and Android 'package' identifiers should not ordinarily
   # be modified. They are used by the tooling to maintain consistency when

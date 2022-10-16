@@ -5,11 +5,12 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:html_editor_enhanced/html_editor.dart';
-import 'package:html_editor_enhanced/utils/utils.dart';
+import 'package:html_editor_enhanced_2/html_editor.dart';
+import 'package:html_editor_enhanced_2/utils/utils.dart';
 // ignore: avoid_web_libraries_in_flutter
 import 'dart:html' as html;
-import 'package:html_editor_enhanced/utils/shims/dart_ui.dart' as ui;
+import 'package:html_editor_enhanced_2/utils/shims/dart_ui.dart' as ui;
+import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 /// The HTML Editor widget itself, for web (uses IFrameElement)
 class HtmlEditorWidget extends StatefulWidget {
@@ -187,7 +188,7 @@ class _HtmlEditorWidgetWebState extends State<HtmlEditorWidget> {
             widget.htmlEditorOptions.darkMode == true) &&
         widget.htmlEditorOptions.darkMode != false) {
       darkCSS =
-          '<link href=\"assets/packages/html_editor_enhanced/assets/summernote-lite-dark.css\" rel=\"stylesheet\">';
+          '<link href=\"assets/packages/html_editor_enhanced_2/assets/summernote-lite-dark.css\" rel=\"stylesheet\">';
     }
     var jsCallbacks = '';
     if (widget.callbacks != null) {
@@ -447,7 +448,7 @@ class _HtmlEditorWidgetWebState extends State<HtmlEditorWidget> {
       </script>
     """;
     var filePath =
-        'packages/html_editor_enhanced/assets/summernote-no-plugins.html';
+        'packages/html_editor_enhanced_2/assets/summernote-no-plugins.html';
     if (widget.htmlEditorOptions.filePath != null) {
       filePath = widget.htmlEditorOptions.filePath!;
     }
@@ -457,11 +458,11 @@ class _HtmlEditorWidgetWebState extends State<HtmlEditorWidget> {
         .replaceFirst('<!--headString-->', headString)
         .replaceFirst('<!--summernoteScripts-->', summernoteScripts)
         .replaceFirst('"jquery.min.js"',
-            '"assets/packages/html_editor_enhanced/assets/jquery.min.js"')
+            '"assets/packages/html_editor_enhanced_2/assets/jquery.min.js"')
         .replaceFirst('"summernote-lite.min.css"',
-            '"assets/packages/html_editor_enhanced/assets/summernote-lite.min.css"')
+            '"assets/packages/html_editor_enhanced_2/assets/summernote-lite.min.css"')
         .replaceFirst('"summernote-lite.min.js"',
-            '"assets/packages/html_editor_enhanced/assets/summernote-lite.min.js"');
+            '"assets/packages/html_editor_enhanced_2/assets/summernote-lite.min.js"');
     if (widget.callbacks != null) addJSListener(widget.callbacks!);
     final iframe = html.IFrameElement()
       ..width = MediaQuery.of(widget.initBC).size.width.toString() //'800'
@@ -545,42 +546,45 @@ class _HtmlEditorWidgetWebState extends State<HtmlEditorWidget> {
       height: widget.htmlEditorOptions.autoAdjustHeight
           ? actualHeight
           : widget.otherOptions.height,
-      child: Column(
-        children: <Widget>[
-          widget.htmlToolbarOptions.toolbarPosition ==
-                  ToolbarPosition.aboveEditor
-              ? ToolbarWidget(
-                  key: toolbarKey,
-                  controller: widget.controller,
-                  htmlToolbarOptions: widget.htmlToolbarOptions,
-                  callbacks: widget.callbacks)
-              : Container(height: 0, width: 0),
-          Expanded(
-              child: Directionality(
-                  textDirection: TextDirection.ltr,
-                  child: FutureBuilder<bool>(
-                      future: summernoteInit,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return HtmlElementView(
-                            viewType: createdViewId,
-                          );
-                        } else {
-                          return Container(
-                              height: widget.htmlEditorOptions.autoAdjustHeight
-                                  ? actualHeight
-                                  : widget.otherOptions.height);
-                        }
-                      }))),
-          widget.htmlToolbarOptions.toolbarPosition ==
-                  ToolbarPosition.belowEditor
-              ? ToolbarWidget(
-                  key: toolbarKey,
-                  controller: widget.controller,
-                  htmlToolbarOptions: widget.htmlToolbarOptions,
-                  callbacks: widget.callbacks)
-              : Container(height: 0, width: 0),
-        ],
+      child: PointerInterceptor(
+        debug: true,
+        child: Column(
+          children: <Widget>[
+            widget.htmlToolbarOptions.toolbarPosition ==
+                    ToolbarPosition.aboveEditor
+                ? ToolbarWidget(
+                    key: toolbarKey,
+                    controller: widget.controller,
+                    htmlToolbarOptions: widget.htmlToolbarOptions,
+                    callbacks: widget.callbacks)
+                : Container(height: 0, width: 0),
+            Expanded(
+                child: Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: FutureBuilder<bool>(
+                        future: summernoteInit,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return HtmlElementView(
+                              viewType: createdViewId,
+                            );
+                          } else {
+                            return Container(
+                                height: widget.htmlEditorOptions.autoAdjustHeight
+                                    ? actualHeight
+                                    : widget.otherOptions.height);
+                          }
+                        }))),
+            widget.htmlToolbarOptions.toolbarPosition ==
+                    ToolbarPosition.belowEditor
+                ? ToolbarWidget(
+                    key: toolbarKey,
+                    controller: widget.controller,
+                    htmlToolbarOptions: widget.htmlToolbarOptions,
+                    callbacks: widget.callbacks)
+                : Container(height: 0, width: 0),
+          ],
+        ),
       ),
     );
   }
